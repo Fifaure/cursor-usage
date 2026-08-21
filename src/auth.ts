@@ -46,9 +46,6 @@ export async function readCursorAccessToken(): Promise<string | null> {
     return null;
   }
 
-  const fileBuffer = fs.readFileSync(dbPath);
-  const wasmBinary = fs.readFileSync(wasmPath);
-
   type SqlDb = {
     prepare: (sql: string) => {
       bind: (params: string[]) => void;
@@ -64,6 +61,9 @@ export async function readCursorAccessToken(): Promise<string | null> {
 
   let db: SqlDb | undefined;
   try {
+    const fileBuffer = fs.readFileSync(dbPath);
+    const wasmBinary = fs.readFileSync(wasmPath);
+
     const sqlJsMod = await import('sql.js');
     const initSqlJs: InitSqlJs =
       typeof (sqlJsMod as { default?: InitSqlJs }).default === 'function'
@@ -76,6 +76,7 @@ export async function readCursorAccessToken(): Promise<string | null> {
     const stmt = db.prepare('SELECT value FROM ItemTable WHERE key = ? LIMIT 1');
     stmt.bind([ACCESS_KEY]);
     if (!stmt.step()) {
+      stmt.free();
       return null;
     }
     const row = stmt.getAsObject();

@@ -102,13 +102,13 @@ export function percentFromAuthUsage(json: unknown): number | null {
   return null;
 }
 
-function timeoutSignal(ms: number): AbortSignal {
+function timeoutSignal(ms: number): { signal: AbortSignal; cancel: () => void } {
   const c = new AbortController();
   const t = setTimeout(() => c.abort(), ms);
   if (typeof t === 'object' && 'unref' in t) {
     (t as NodeJS.Timeout).unref();
   }
-  return c.signal;
+  return { signal: c.signal, cancel: () => clearTimeout(t) };
 }
 
 async function requestJson(
@@ -116,6 +116,7 @@ async function requestJson(
   token: string,
   method: 'GET' | 'POST'
 ): Promise<{ kind: 'json'; body: unknown } | { kind: 'unauth' } | { kind: 'fail' }> {
+  const { signal, cancel } = timeoutSignal(TIMEOUT_MS);
   try {
     const headers: Record<string, string> = {
       Authorization: `Bearer ${token}`,
@@ -123,7 +124,7 @@ async function requestJson(
     const init: RequestInit = {
       method,
       headers,
-      signal: timeoutSignal(TIMEOUT_MS),
+      signal,
     };
     if (method === 'POST') {
       headers['Content-Type'] = 'application/json';
@@ -140,6 +141,8 @@ async function requestJson(
     return { kind: 'json', body: await res.json() };
   } catch {
     return { kind: 'fail' };
+  } finally {
+    cancel();
   }
 }
 

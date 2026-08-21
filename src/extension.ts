@@ -62,6 +62,7 @@ export function activate(context: vscode.ExtensionContext): void {
       }
       bar?.dispose();
       bar = undefined;
+      lastPercent = undefined;
     },
   });
 }
@@ -73,4 +74,5 @@ export function deactivate(): void {
   }
   bar?.dispose();
   bar = undefined;
+  lastPercent = undefined;
 }

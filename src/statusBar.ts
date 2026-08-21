@@ -5,6 +5,7 @@ export class UsageStatusBar {
 
   constructor() {
     this.item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 1);
+    this.item.name = 'Cursor Usage';
     this.item.show();
   }
 

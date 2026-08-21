@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 
+export const TOGGLE_COMMAND = 'cursorUsage.toggleDisplayedPercent';
+
 const STOPS: [number, number][] = [
   [70, 0xe2a336],
   [90, 0xe86548],
@@ -16,7 +18,7 @@ function rgbHex(r: number, g: number, b: number): string {
 
 function colorFor(n: number): string | undefined {
   if (n < STOPS[0][0]) {
-    return undefined;
+    return '#5a5a5a';
   }
   for (let i = 0; i < STOPS.length - 1; i++) {
     const [loPct, loRgb] = STOPS[i];
@@ -35,34 +37,69 @@ function colorFor(n: number): string | undefined {
 
 export class UsageStatusBar {
   private readonly item: vscode.StatusBarItem;
+  private cursorPercent: number | undefined;
+  private otherPercent: number | undefined;
+  private showingOther = false;
 
   constructor() {
     this.item = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 1);
     this.item.name = 'Cursor Usage';
+    this.item.command = TOGGLE_COMMAND;
     this.item.show();
   }
 
   setLoading(): void {
+    this.showingOther = false;
+    this.cursorPercent = undefined;
+    this.otherPercent = undefined;
     this.item.text = '…';
     this.item.color = undefined;
     this.item.tooltip = undefined;
   }
 
   setPercent(n: number, otherPercent?: number): void {
-    const pct = Math.max(0, Math.min(100, Math.round(n)));
-    this.item.text = `$(usage-ring-${pct}) ${pct}%`;
-    this.item.color = colorFor(pct);
-    this.item.tooltip =
-      otherPercent !== undefined ? `Autres modèles : ${otherPercent}%` : undefined;
+    this.cursorPercent = Math.max(0, Math.min(100, Math.round(n)));
+    this.otherPercent =
+      otherPercent === undefined ? undefined : Math.max(0, Math.min(100, Math.round(otherPercent)));
+    if (this.otherPercent === undefined) {
+      this.showingOther = false;
+    }
+    this.render();
+  }
+
+  toggleDisplayed(): void {
+    if (this.otherPercent === undefined) {
+      return;
+    }
+    this.showingOther = !this.showingOther;
+    this.render();
   }
 
   setUnavailable(): void {
+    this.showingOther = false;
+    this.cursorPercent = undefined;
+    this.otherPercent = undefined;
     this.item.text = '—';
     this.item.color = undefined;
     this.item.tooltip = undefined;
+    this.item.name = 'Cursor Usage';
   }
 
   dispose(): void {
     this.item.dispose();
+  }
+
+  private render(): void {
+    const n =
+      this.showingOther && this.otherPercent !== undefined
+        ? this.otherPercent
+        : this.cursorPercent;
+    if (n === undefined) {
+      return;
+    }
+    this.item.text = `$(usage-ring-${n}) ${n}%`;
+    this.item.color = colorFor(n);
+    this.item.tooltip = undefined;
+    this.item.name = this.showingOther ? 'Autres modèles' : 'Cursor Usage';
   }
 }

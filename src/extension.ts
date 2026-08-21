@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { readCursorAccessToken } from './auth';
-import { UsageStatusBar } from './statusBar';
+import { TOGGLE_COMMAND, UsageStatusBar } from './statusBar';
 import { fetchUsagePercent } from './usage';
 
 const POLL_MS = 60_000;
@@ -52,6 +52,11 @@ async function refresh(): Promise<void> {
 
 export function activate(context: vscode.ExtensionContext): void {
   bar = new UsageStatusBar();
+  context.subscriptions.push(
+    vscode.commands.registerCommand(TOGGLE_COMMAND, () => {
+      bar?.toggleDisplayed();
+    })
+  );
   bar.setLoading();
   void refresh();
   timer = setInterval(() => {

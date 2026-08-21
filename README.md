@@ -1,36 +1,36 @@
 # Cursor Usage
 
-Extension Cursor qui affiche l’usage de l’abonnement **dans la barre de statut**, à droite.
+Cursor extension that shows subscription usage **in the status bar**, on the right.
 
 ![Logo](media/icon.png)
 
-## Ce que tu vois
+## What you see
 
-| Élément | Détail |
+| Element | Detail |
 | --- | --- |
-| Anneau + pourcentage | Usage **Cursor Models** (Grok, Composer, etc.) |
-| Survol | Usage **Autres modèles** |
-| Couleur | Normale sous 70 %, orange dès 70 %, rouge dès 90 % |
-| `…` | Premier chargement |
-| `—` | Pas connecté, token illisible, ou API indisponible |
+| Ring + percent | **Cursor Models** usage (Grok, Composer, etc.) |
+| Click | Switches to **Other models** (click again to switch back) |
+| Color | Gray below 70%, orange from 70%, red from 90% |
+| `…` | First load |
+| `—` | Signed out, unreadable token, or API unavailable |
 
-Mise à jour toutes les **60 secondes**.
+Refreshes every **60 seconds**.
 
-## Installer
+## Install
 
-1. Ouvre Cursor.
-2. Palette : **Extensions: Install from VSIX…**
-3. Choisis `cursor-usage-0.0.2.vsix` (à la racine de ce dossier, après un `npm run package`).
-4. Recharge la fenêtre (`Developer: Reload Window`).
+1. Open Cursor.
+2. Command Palette: **Extensions: Install from VSIX…**
+3. Pick `cursor-usage-0.0.2.vsix` (repo root, after `npm run package`).
+4. Reload the window (`Developer: Reload Window`).
 
-Tu dois être **connecté à Cursor** sur cette machine.
+You must be **signed in to Cursor** on this machine.
 
-### Prérequis
+### Requirements
 
-- Cursor (fork VS Code ≥ 1.85)
-- **Python 3** dans le `PATH` (`py -3` ou `python`) — nécessaire pour lire `state.vscdb` quand la base est trop grosse pour sql.js
+- Cursor (VS Code ≥ 1.85)
+- **Python 3** on `PATH` (`py -3` or `python`) — needed to read `state.vscdb` when the database is too large for sql.js
 
-## Développement
+## Development
 
 ```bash
 npm install
@@ -38,20 +38,20 @@ npm run compile
 npm run package
 ```
 
-Puis installer le `.vsix` généré.
+Then install the generated `.vsix`.
 
-- `npm run watch` — recompile en continu
-- `npm run build:icons` — régénère la police d’anneaux (`media/usage-rings.woff`)
-- F5 — lancer **Run Extension** (hôte de développement)
+- `npm run watch` — compile on change
+- `npm run build:icons` — rebuild the ring icon font (`media/usage-rings.woff`)
+- F5 — **Run Extension** (Extension Development Host)
 
-## Comment ça marche
+## How it works
 
-1. Lecture du token de session Cursor dans `state.vscdb` (clé `cursorAuth/accessToken`), en lecture seule. Le token n’est **jamais** stocké par l’extension.
-2. Appel HTTPS à `https://api2.cursor.sh` (`GetCurrentPeriodUsage`).
-3. Affichage de `autoPercentUsed` (Cursor Models) ; le tooltip utilise `apiPercentUsed` (autres modèles).
+1. Reads the Cursor session token from `state.vscdb` (`cursorAuth/accessToken`), read-only. The token is **never** stored by the extension.
+2. Calls `https://api2.cursor.sh` (`GetCurrentPeriodUsage`) over HTTPS.
+3. Shows `autoPercentUsed` (Cursor Models). A click shows `apiPercentUsed` (other models) instead, with no popup.
 
-Il n’existe **pas d’API d’usage officielle**. Les endpoints et le format JSON peuvent changer et casser l’extension.
+There is **no official usage API**. Endpoints and JSON shapes can change and break the extension.
 
-## Licence
+## License
 
-Usage personnel. Non affilié à Cursor.
+Personal use. Not affiliated with Cursor.

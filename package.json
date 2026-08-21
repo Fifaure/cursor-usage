@@ -5,6 +5,10 @@
   "version": "0.0.2",
   "publisher": "camille",
   "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Fifaure/cursor-usage.git"
+  },
   "private": true,
   "engines": {
     "vscode": "^1.85.0"

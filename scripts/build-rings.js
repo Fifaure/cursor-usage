@@ -17,20 +17,25 @@ function pt(deg, rad) {
   return [CX + rad * Math.cos(a), CY + rad * Math.sin(a)];
 }
 
+function fullAnnulus(outer, inner) {
+  return [
+    `M ${CX} ${CY + outer}`,
+    `A ${outer} ${outer} 0 1 0 ${CX} ${CY - outer}`,
+    `A ${outer} ${outer} 0 1 0 ${CX} ${CY + outer} Z`,
+    `M ${CX} ${CY + inner}`,
+    `A ${inner} ${inner} 0 1 1 ${CX} ${CY - inner}`,
+    `A ${inner} ${inner} 0 1 1 ${CX} ${CY + inner} Z`,
+  ].join(' ');
+}
+
 function ringPath(percent) {
   const f = (n) => n.toFixed(2);
+  const track = fullAnnulus(R, 400);
   if (percent <= 0) {
-    return 'M 0 0';
+    return track;
   }
   if (percent >= 100) {
-    return [
-      `M ${CX} ${CY + R}`,
-      `A ${R} ${R} 0 1 0 ${CX} ${CY - R}`,
-      `A ${R} ${R} 0 1 0 ${CX} ${CY + R} Z`,
-      `M ${CX} ${CY + RI}`,
-      `A ${RI} ${RI} 0 1 1 ${CX} ${CY - RI}`,
-      `A ${RI} ${RI} 0 1 1 ${CX} ${CY + RI} Z`,
-    ].join(' ');
+    return fullAnnulus(R, RI);
   }
   const startDeg = 90;
   const sweepDeg = 360 * (percent / 100);
@@ -40,12 +45,13 @@ function ringPath(percent) {
   const [x1, y1] = pt(endDeg, R);
   const [ix1, iy1] = pt(endDeg, RI);
   const [ix0, iy0] = pt(startDeg, RI);
-  return [
+  const fill = [
     `M ${f(x0)} ${f(y0)}`,
     `A ${R} ${R} 0 ${large} 0 ${f(x1)} ${f(y1)}`,
     `L ${f(ix1)} ${f(iy1)}`,
     `A ${RI} ${RI} 0 ${large} 1 ${f(ix0)} ${f(iy0)} Z`,
   ].join(' ');
+  return `${track} ${fill}`;
 }
 
 function svgFont() {

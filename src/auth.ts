@@ -48,26 +48,31 @@ export async function readCursorAccessToken(): Promise<string | null> {
 
   const fileBuffer = fs.readFileSync(dbPath);
   const wasmBinary = fs.readFileSync(wasmPath);
-  const sqlJsMod = await import('sql.js');
-  type InitSqlJs = (opts?: { wasmBinary?: Buffer | Uint8Array }) => Promise<{
-    Database: new (data?: ArrayLike<number>) => {
-      prepare: (sql: string) => {
-        bind: (params: string[]) => void;
-        step: () => boolean;
-        getAsObject: () => { value?: string | Uint8Array };
-        free: () => void;
-      };
-      close: () => void;
-    };
-  }>;
-  const initSqlJs: InitSqlJs =
-    typeof (sqlJsMod as { default?: InitSqlJs }).default === 'function'
-      ? (sqlJsMod as { default: InitSqlJs }).default
-      : (sqlJsMod as unknown as InitSqlJs);
 
-  const SQL = await initSqlJs({ wasmBinary });
-  const db = new SQL.Database(new Uint8Array(fileBuffer));
+  type SqlDb = {
+    prepare: (sql: string) => {
+      bind: (params: string[]) => void;
+      step: () => boolean;
+      getAsObject: () => { value?: string | Uint8Array };
+      free: () => void;
+    };
+    close: () => void;
+  };
+  type InitSqlJs = (opts?: { wasmBinary?: Buffer | Uint8Array }) => Promise<{
+    Database: new (data?: ArrayLike<number>) => SqlDb;
+  }>;
+
+  let db: SqlDb | undefined;
   try {
+    const sqlJsMod = await import('sql.js');
+    const initSqlJs: InitSqlJs =
+      typeof (sqlJsMod as { default?: InitSqlJs }).default === 'function'
+        ? (sqlJsMod as { default: InitSqlJs }).default
+        : (sqlJsMod as unknown as InitSqlJs);
+
+    const SQL = await initSqlJs({ wasmBinary });
+    db = new SQL.Database(new Uint8Array(fileBuffer));
+
     const stmt = db.prepare('SELECT value FROM ItemTable WHERE key = ? LIMIT 1');
     stmt.bind([ACCESS_KEY]);
     if (!stmt.step()) {
@@ -88,6 +93,6 @@ export async function readCursorAccessToken(): Promise<string | null> {
     console.log('cursor-usage: failed to read access token');
     return null;
   } finally {
-    db.close();
+    db?.close();
   }
 }

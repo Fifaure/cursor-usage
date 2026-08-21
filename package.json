@@ -1,0 +1,28 @@
+{
+  "name": "cursor-usage",
+  "displayName": "Cursor Usage",
+  "description": "Shows Cursor subscription usage percent in the status bar",
+  "version": "0.0.1",
+  "publisher": "camille",
+  "private": true,
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p .",
+    "package": "vsce package --allow-missing-repository --skip-license"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.0",
+    "typescript": "^5.5.0"
+  },
+  "dependencies": {
+    "sql.js": "^1.11.0"
+  }
+}

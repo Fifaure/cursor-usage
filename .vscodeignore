@@ -1,0 +1,7 @@
+.vscode/**
+src/**
+docs/**
+**/*.map
+.gitignore
+tsconfig.json
+**/*.ts

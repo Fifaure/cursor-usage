@@ -20,7 +20,7 @@ Refreshes every **60 seconds**.
 
 1. Open Cursor.
 2. Command Palette: **Extensions: Install from VSIX…**
-3. Pick `cursor-usage-0.0.2.vsix` (repo root, after `npm run package`).
+3. Pick `cursor-usage-0.0.4.vsix` (repo root, after `npm run package`).
 4. Reload the window (`Developer: Reload Window`).
 
 You must be **signed in to Cursor** on this machine.

@@ -18,7 +18,7 @@ function rgbHex(r: number, g: number, b: number): string {
 
 function colorFor(n: number): string | undefined {
   if (n < STOPS[0][0]) {
-    return '#5a5a5a';
+    return '#a0a0a0';
   }
   for (let i = 0; i < STOPS.length - 1; i++) {
     const [loPct, loRgb] = STOPS[i];

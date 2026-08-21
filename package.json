@@ -2,7 +2,7 @@
   "name": "cursor-usage",
   "displayName": "Cursor Usage",
   "description": "Shows Cursor subscription usage percent in the status bar",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "publisher": "camille",
   "icon": "media/icon.png",
   "repository": {

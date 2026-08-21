@@ -8,6 +8,7 @@ const POLL_MS = 60_000;
 let bar: UsageStatusBar | undefined;
 let timer: ReturnType<typeof setInterval> | undefined;
 let lastPercent: number | undefined;
+let lastOtherPercent: number | undefined;
 
 function applyResult(
   result: Awaited<ReturnType<typeof fetchUsagePercent>> | { status: 'unauth' }
@@ -17,16 +18,18 @@ function applyResult(
   }
   if (result.status === 'ok') {
     lastPercent = result.percent;
-    bar.setPercent(result.percent);
+    lastOtherPercent = result.otherPercent;
+    bar.setPercent(result.percent, result.otherPercent);
     return;
   }
   if (result.status === 'unauth') {
     lastPercent = undefined;
+    lastOtherPercent = undefined;
     bar.setUnavailable();
     return;
   }
   if (lastPercent !== undefined) {
-    bar.setPercent(lastPercent);
+    bar.setPercent(lastPercent, lastOtherPercent);
     return;
   }
   bar.setUnavailable();
@@ -63,6 +66,7 @@ export function activate(context: vscode.ExtensionContext): void {
       bar?.dispose();
       bar = undefined;
       lastPercent = undefined;
+      lastOtherPercent = undefined;
     },
   });
 }
@@ -75,4 +79,5 @@ export function deactivate(): void {
   bar?.dispose();
   bar = undefined;
   lastPercent = undefined;
+  lastOtherPercent = undefined;
 }

@@ -1,4 +1,8 @@
 .vscode/**
+scripts/**
+media/ring-svgs/**
+media/preview-*.svg
+media/usage-rings.json
 .superpowers/**
 src/**
 docs/**

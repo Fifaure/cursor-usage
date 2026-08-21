@@ -2,18 +2,24 @@
   "name": "cursor-usage",
   "displayName": "Cursor Usage",
   "description": "Shows Cursor subscription usage percent in the status bar",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "camille",
+  "icon": "media/icon.png",
   "private": true,
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": ["Other"],
-  "activationEvents": ["onStartupFinished"],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "scripts": {
     "compile": "tsc -p .",
     "watch": "tsc -watch -p .",
+    "build:icons": "node scripts/build-rings.js",
     "package": "vsce package --allow-missing-repository --skip-license"
   },
   "devDependencies": {
@@ -21,9 +27,722 @@
     "@types/sql.js": "^1.4.9",
     "@types/vscode": "^1.85.0",
     "@vscode/vsce": "^3.2.0",
+    "svg2ttf": "^6.1.0",
+    "ttf2woff": "^3.0.0",
     "typescript": "^5.5.0"
   },
   "dependencies": {
     "sql.js": "^1.11.0"
+  },
+  "contributes": {
+    "icons": {
+      "usage-ring-0": {
+        "description": "Usage ring 0%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e000"
+        }
+      },
+      "usage-ring-1": {
+        "description": "Usage ring 1%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e001"
+        }
+      },
+      "usage-ring-2": {
+        "description": "Usage ring 2%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e002"
+        }
+      },
+      "usage-ring-3": {
+        "description": "Usage ring 3%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e003"
+        }
+      },
+      "usage-ring-4": {
+        "description": "Usage ring 4%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e004"
+        }
+      },
+      "usage-ring-5": {
+        "description": "Usage ring 5%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e005"
+        }
+      },
+      "usage-ring-6": {
+        "description": "Usage ring 6%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e006"
+        }
+      },
+      "usage-ring-7": {
+        "description": "Usage ring 7%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e007"
+        }
+      },
+      "usage-ring-8": {
+        "description": "Usage ring 8%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e008"
+        }
+      },
+      "usage-ring-9": {
+        "description": "Usage ring 9%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e009"
+        }
+      },
+      "usage-ring-10": {
+        "description": "Usage ring 10%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e00a"
+        }
+      },
+      "usage-ring-11": {
+        "description": "Usage ring 11%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e00b"
+        }
+      },
+      "usage-ring-12": {
+        "description": "Usage ring 12%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e00c"
+        }
+      },
+      "usage-ring-13": {
+        "description": "Usage ring 13%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e00d"
+        }
+      },
+      "usage-ring-14": {
+        "description": "Usage ring 14%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e00e"
+        }
+      },
+      "usage-ring-15": {
+        "description": "Usage ring 15%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e00f"
+        }
+      },
+      "usage-ring-16": {
+        "description": "Usage ring 16%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e010"
+        }
+      },
+      "usage-ring-17": {
+        "description": "Usage ring 17%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e011"
+        }
+      },
+      "usage-ring-18": {
+        "description": "Usage ring 18%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e012"
+        }
+      },
+      "usage-ring-19": {
+        "description": "Usage ring 19%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e013"
+        }
+      },
+      "usage-ring-20": {
+        "description": "Usage ring 20%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e014"
+        }
+      },
+      "usage-ring-21": {
+        "description": "Usage ring 21%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e015"
+        }
+      },
+      "usage-ring-22": {
+        "description": "Usage ring 22%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e016"
+        }
+      },
+      "usage-ring-23": {
+        "description": "Usage ring 23%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e017"
+        }
+      },
+      "usage-ring-24": {
+        "description": "Usage ring 24%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e018"
+        }
+      },
+      "usage-ring-25": {
+        "description": "Usage ring 25%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e019"
+        }
+      },
+      "usage-ring-26": {
+        "description": "Usage ring 26%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e01a"
+        }
+      },
+      "usage-ring-27": {
+        "description": "Usage ring 27%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e01b"
+        }
+      },
+      "usage-ring-28": {
+        "description": "Usage ring 28%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e01c"
+        }
+      },
+      "usage-ring-29": {
+        "description": "Usage ring 29%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e01d"
+        }
+      },
+      "usage-ring-30": {
+        "description": "Usage ring 30%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e01e"
+        }
+      },
+      "usage-ring-31": {
+        "description": "Usage ring 31%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e01f"
+        }
+      },
+      "usage-ring-32": {
+        "description": "Usage ring 32%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e020"
+        }
+      },
+      "usage-ring-33": {
+        "description": "Usage ring 33%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e021"
+        }
+      },
+      "usage-ring-34": {
+        "description": "Usage ring 34%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e022"
+        }
+      },
+      "usage-ring-35": {
+        "description": "Usage ring 35%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e023"
+        }
+      },
+      "usage-ring-36": {
+        "description": "Usage ring 36%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e024"
+        }
+      },
+      "usage-ring-37": {
+        "description": "Usage ring 37%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e025"
+        }
+      },
+      "usage-ring-38": {
+        "description": "Usage ring 38%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e026"
+        }
+      },
+      "usage-ring-39": {
+        "description": "Usage ring 39%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e027"
+        }
+      },
+      "usage-ring-40": {
+        "description": "Usage ring 40%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e028"
+        }
+      },
+      "usage-ring-41": {
+        "description": "Usage ring 41%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e029"
+        }
+      },
+      "usage-ring-42": {
+        "description": "Usage ring 42%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e02a"
+        }
+      },
+      "usage-ring-43": {
+        "description": "Usage ring 43%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e02b"
+        }
+      },
+      "usage-ring-44": {
+        "description": "Usage ring 44%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e02c"
+        }
+      },
+      "usage-ring-45": {
+        "description": "Usage ring 45%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e02d"
+        }
+      },
+      "usage-ring-46": {
+        "description": "Usage ring 46%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e02e"
+        }
+      },
+      "usage-ring-47": {
+        "description": "Usage ring 47%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e02f"
+        }
+      },
+      "usage-ring-48": {
+        "description": "Usage ring 48%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e030"
+        }
+      },
+      "usage-ring-49": {
+        "description": "Usage ring 49%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e031"
+        }
+      },
+      "usage-ring-50": {
+        "description": "Usage ring 50%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e032"
+        }
+      },
+      "usage-ring-51": {
+        "description": "Usage ring 51%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e033"
+        }
+      },
+      "usage-ring-52": {
+        "description": "Usage ring 52%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e034"
+        }
+      },
+      "usage-ring-53": {
+        "description": "Usage ring 53%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e035"
+        }
+      },
+      "usage-ring-54": {
+        "description": "Usage ring 54%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e036"
+        }
+      },
+      "usage-ring-55": {
+        "description": "Usage ring 55%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e037"
+        }
+      },
+      "usage-ring-56": {
+        "description": "Usage ring 56%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e038"
+        }
+      },
+      "usage-ring-57": {
+        "description": "Usage ring 57%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e039"
+        }
+      },
+      "usage-ring-58": {
+        "description": "Usage ring 58%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e03a"
+        }
+      },
+      "usage-ring-59": {
+        "description": "Usage ring 59%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e03b"
+        }
+      },
+      "usage-ring-60": {
+        "description": "Usage ring 60%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e03c"
+        }
+      },
+      "usage-ring-61": {
+        "description": "Usage ring 61%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e03d"
+        }
+      },
+      "usage-ring-62": {
+        "description": "Usage ring 62%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e03e"
+        }
+      },
+      "usage-ring-63": {
+        "description": "Usage ring 63%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e03f"
+        }
+      },
+      "usage-ring-64": {
+        "description": "Usage ring 64%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e040"
+        }
+      },
+      "usage-ring-65": {
+        "description": "Usage ring 65%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e041"
+        }
+      },
+      "usage-ring-66": {
+        "description": "Usage ring 66%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e042"
+        }
+      },
+      "usage-ring-67": {
+        "description": "Usage ring 67%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e043"
+        }
+      },
+      "usage-ring-68": {
+        "description": "Usage ring 68%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e044"
+        }
+      },
+      "usage-ring-69": {
+        "description": "Usage ring 69%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e045"
+        }
+      },
+      "usage-ring-70": {
+        "description": "Usage ring 70%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e046"
+        }
+      },
+      "usage-ring-71": {
+        "description": "Usage ring 71%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e047"
+        }
+      },
+      "usage-ring-72": {
+        "description": "Usage ring 72%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e048"
+        }
+      },
+      "usage-ring-73": {
+        "description": "Usage ring 73%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e049"
+        }
+      },
+      "usage-ring-74": {
+        "description": "Usage ring 74%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e04a"
+        }
+      },
+      "usage-ring-75": {
+        "description": "Usage ring 75%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e04b"
+        }
+      },
+      "usage-ring-76": {
+        "description": "Usage ring 76%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e04c"
+        }
+      },
+      "usage-ring-77": {
+        "description": "Usage ring 77%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e04d"
+        }
+      },
+      "usage-ring-78": {
+        "description": "Usage ring 78%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e04e"
+        }
+      },
+      "usage-ring-79": {
+        "description": "Usage ring 79%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e04f"
+        }
+      },
+      "usage-ring-80": {
+        "description": "Usage ring 80%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e050"
+        }
+      },
+      "usage-ring-81": {
+        "description": "Usage ring 81%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e051"
+        }
+      },
+      "usage-ring-82": {
+        "description": "Usage ring 82%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e052"
+        }
+      },
+      "usage-ring-83": {
+        "description": "Usage ring 83%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e053"
+        }
+      },
+      "usage-ring-84": {
+        "description": "Usage ring 84%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e054"
+        }
+      },
+      "usage-ring-85": {
+        "description": "Usage ring 85%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e055"
+        }
+      },
+      "usage-ring-86": {
+        "description": "Usage ring 86%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e056"
+        }
+      },
+      "usage-ring-87": {
+        "description": "Usage ring 87%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e057"
+        }
+      },
+      "usage-ring-88": {
+        "description": "Usage ring 88%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e058"
+        }
+      },
+      "usage-ring-89": {
+        "description": "Usage ring 89%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e059"
+        }
+      },
+      "usage-ring-90": {
+        "description": "Usage ring 90%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e05a"
+        }
+      },
+      "usage-ring-91": {
+        "description": "Usage ring 91%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e05b"
+        }
+      },
+      "usage-ring-92": {
+        "description": "Usage ring 92%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e05c"
+        }
+      },
+      "usage-ring-93": {
+        "description": "Usage ring 93%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e05d"
+        }
+      },
+      "usage-ring-94": {
+        "description": "Usage ring 94%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e05e"
+        }
+      },
+      "usage-ring-95": {
+        "description": "Usage ring 95%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e05f"
+        }
+      },
+      "usage-ring-96": {
+        "description": "Usage ring 96%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e060"
+        }
+      },
+      "usage-ring-97": {
+        "description": "Usage ring 97%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e061"
+        }
+      },
+      "usage-ring-98": {
+        "description": "Usage ring 98%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e062"
+        }
+      },
+      "usage-ring-99": {
+        "description": "Usage ring 99%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e063"
+        }
+      },
+      "usage-ring-100": {
+        "description": "Usage ring 100%",
+        "default": {
+          "fontPath": "media/usage-rings.woff",
+          "fontCharacter": "\\e064"
+        }
+      }
+    }
   }
 }

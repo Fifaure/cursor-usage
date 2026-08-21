@@ -4,9 +4,14 @@ const AUTH_USAGE_PATH = '/auth/usage';
 const TIMEOUT_MS = 10_000;
 
 export type UsageFetchResult =
-  | { status: 'ok'; percent: number }
+  | { status: 'ok'; percent: number; otherPercent?: number }
   | { status: 'unauth' }
   | { status: 'unavailable' };
+
+export type ParsedUsage = {
+  percent: number;
+  otherPercent?: number;
+};
 
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
@@ -34,7 +39,7 @@ function percentFromUsedLimit(used: number, limit: number): number | null {
   return clampPercent((used / limit) * 100);
 }
 
-export function percentFromDashboard(json: unknown): number | null {
+export function percentFromDashboard(json: unknown): ParsedUsage | null {
   if (!isRecord(json)) {
     return null;
   }
@@ -43,9 +48,17 @@ export function percentFromDashboard(json: unknown): number | null {
     return null;
   }
 
+  const apiPercentUsed = num(pu.apiPercentUsed);
+  const otherPercent = apiPercentUsed !== undefined ? clampPercent(apiPercentUsed) : undefined;
+
+  const autoPercentUsed = num(pu.autoPercentUsed);
+  if (autoPercentUsed !== undefined) {
+    return { percent: clampPercent(autoPercentUsed), otherPercent };
+  }
+
   const totalPercentUsed = num(pu.totalPercentUsed);
   if (totalPercentUsed !== undefined) {
-    return clampPercent(totalPercentUsed);
+    return { percent: clampPercent(totalPercentUsed), otherPercent };
   }
 
   const limit = num(pu.limit);
@@ -65,7 +78,8 @@ export function percentFromDashboard(json: unknown): number | null {
   if (used === undefined || limit === undefined) {
     return null;
   }
-  return percentFromUsedLimit(used, limit);
+  const percent = percentFromUsedLimit(used, limit);
+  return percent === null ? null : { percent, otherPercent };
 }
 
 function extractUsedLimit(val: Record<string, unknown>): { used: number; limit: number } | undefined {
@@ -152,9 +166,9 @@ export async function fetchUsagePercent(token: string): Promise<UsageFetchResult
     return { status: 'unauth' };
   }
   if (dashboard.kind === 'json') {
-    const pct = percentFromDashboard(dashboard.body);
-    if (pct !== null) {
-      return { status: 'ok', percent: pct };
+    const parsed = percentFromDashboard(dashboard.body);
+    if (parsed !== null) {
+      return { status: 'ok', percent: parsed.percent, otherPercent: parsed.otherPercent };
     }
   }
 

@@ -39,6 +39,12 @@
     "sql.js": "^1.11.0"
   },
   "contributes": {
+    "commands": [
+      {
+        "command": "cursorUsage.toggleDisplayedPercent",
+        "title": "Cursor Usage: Show the other usage percent"
+      }
+    ],
     "icons": {
       "usage-ring-0": {
         "description": "Usage ring 0%",

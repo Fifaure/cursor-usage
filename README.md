@@ -8,8 +8,8 @@ Cursor extension that shows subscription usage **in the status bar**, on the rig
 
 | Element | Detail |
 | --- | --- |
-| Ring + percent | **Cursor Models** usage (Grok, Composer, etc.) |
-| Click | Switches to **Other models** (click again to switch back) |
+| Ring + percent | **Included usage** (`includedSpend / limit`) when Cursor’s model percents are 0. Otherwise **Cursor Models** (`autoPercentUsed`) |
+| Click | **Other models** (`apiPercentUsed`). Stays at 0% when that pool is empty |
 | Color | Gray below 70%, orange from 70%, red from 90% |
 | `…` | First load |
 | `—` | Signed out, unreadable token, or API unavailable |
@@ -46,7 +46,7 @@ Then install the generated `.vsix`.
 
 ## How it works
 
-1. Reads the Cursor session token from `state.vscdb` (`cursorAuth/accessToken`), read-only. The token is **never** stored by the extension.
+1. Reads the Cursor session token from `state.vscdb` (`cursorAuth/accessToken`), read-only. Recent Cursor versions store it as `cursor-safe-storage:v1:`; on Windows the extension decrypts that locally. You do not paste or replace the token. It is **never** stored by the extension.
 2. Calls `https://api2.cursor.sh` (`GetCurrentPeriodUsage`) over HTTPS.
 3. Shows `autoPercentUsed` (Cursor Models). A click shows `apiPercentUsed` (other models) instead, with no popup.
 

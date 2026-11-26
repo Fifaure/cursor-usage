@@ -50,8 +50,17 @@ export function percentFromDashboard(json: unknown): ParsedUsage | null {
 
   const apiPercentUsed = num(pu.apiPercentUsed);
   const otherPercent = apiPercentUsed !== undefined ? clampPercent(apiPercentUsed) : undefined;
+  const included = includedPercent(pu);
 
   const autoPercentUsed = num(pu.autoPercentUsed);
+  if (autoPercentUsed !== undefined && clampPercent(autoPercentUsed) > 0) {
+    return { percent: clampPercent(autoPercentUsed), otherPercent };
+  }
+  // autoPercentUsed/apiPercentUsed can stay at 0 while the dashboard
+  // "included usage" percent is includedSpend / limit.
+  if (included !== null && included > 0) {
+    return { percent: included, otherPercent };
+  }
   if (autoPercentUsed !== undefined) {
     return { percent: clampPercent(autoPercentUsed), otherPercent };
   }
@@ -61,6 +70,10 @@ export function percentFromDashboard(json: unknown): ParsedUsage | null {
     return { percent: clampPercent(totalPercentUsed), otherPercent };
   }
 
+  return included === null ? null : { percent: included, otherPercent };
+}
+
+function includedPercent(pu: Record<string, unknown>): number | null {
   const limit = num(pu.limit);
   const remaining = num(pu.remaining);
   const includedSpend = num(pu.includedSpend);
@@ -78,8 +91,7 @@ export function percentFromDashboard(json: unknown): ParsedUsage | null {
   if (used === undefined || limit === undefined) {
     return null;
   }
-  const percent = percentFromUsedLimit(used, limit);
-  return percent === null ? null : { percent, otherPercent };
+  return percentFromUsedLimit(used, limit);
 }
 
 function extractUsedLimit(val: Record<string, unknown>): { used: number; limit: number } | undefined {

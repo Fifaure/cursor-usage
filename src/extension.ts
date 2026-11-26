@@ -36,12 +36,12 @@ function applyResult(
 }
 
 async function refresh(): Promise<void> {
-  const token = await readCursorAccessToken();
-  if (!token) {
-    applyResult({ status: 'unauth' });
-    return;
-  }
   try {
+    const token = await readCursorAccessToken();
+    if (!token) {
+      applyResult({ status: 'unauth' });
+      return;
+    }
     const result = await fetchUsagePercent(token);
     applyResult(result);
   } catch {
